@@ -6,18 +6,18 @@ define(function(require, exports, module) {
 		// actions go here
 		loadRepo(repo){
 			repo = repo || "test-repo";
-			if(!repo){
-				$.ajax({
-					"url": "/repos/"+repo+".json",
-  					"method": "GET"
-  				}).done(function (response) {
-  					AppDispatcher.dispatch({
-						type:"NEW_REPO",
-						payload:response,
-						meta:repo
-					});
-  				});
-			}
+			console.log(repo);
+			$.ajax({
+				"url": "/repos/"+repo+".json",
+					"method": "GET"
+				}).done(function (response) {
+					console.log(response);
+					AppDispatcher.dispatch({
+					type:"NEW_REPO",
+					payload:response,
+					meta:repo
+				});
+				});
 		}
 	}
 

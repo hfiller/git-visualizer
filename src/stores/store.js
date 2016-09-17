@@ -14,10 +14,8 @@ define(function(require, exports, module) {
 		}
 
 		__initialize() {
-			this.__current = {
-				current_repo :'test-repo',
-				repos:{}
-			};
+			this.current_repo = 'test-repo'
+			this.repos = {};
 		}
 		
 		/**
