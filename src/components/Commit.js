@@ -19,24 +19,35 @@ define(function(require, exports, module) {
 			var commitData = [];
 			var total = 0;
 			var commit = this.props.commit;
+			var pathString = "";
 			for (var i = 0; i < commit.paths.length; i++) {
+				if(pathString)
+					pathString+='\n';
 				var path = commit.paths[i]
-				if(path.insertions == 0 && path.deletions == 0){
-					path.insertions = 1;
+				var insertions = parseInt(path.insertions);
+				var deletions = parseInt(path.deletions);
+				if(insertions == 0 && deletions == 0){
+					insertions = 1;
+				}
+				pathString += path.path;
+				if(insertions){
+					pathString += " +"+insertions;
 				}
 				commitData.push({
 					label:path.path,
-					value:path.insertions,
+					value:insertions,
 					color:"#0F0"
 				})
+				if(deletions){
+					pathString += " -"+deletions;
+				}
 				commitData.push({
 					label:path.path,
-					value:path.deletions,
+					value:deletions,
 					color:"#F00"
 				})
-				total+= parseInt(path.insertions)+parseInt(path.deletions)
+				total+= parseInt(insertions)+parseInt(deletions)
 			}
-			console.log(commitData.length);
 			for (var i = 2; i <= commitData.length; i+=2) {
 				commitData.splice(i,0,{
 					value:(total/100),
@@ -44,28 +55,20 @@ define(function(require, exports, module) {
 				})
 				i++;
 			}
-			console.log(commitData.length);
-			return (<ul className="list-group">
+			return (
   				<li className="list-group-item">
+					<div style={{float:"right"}}>
 					<DoughnutChart
+						width="100"
+						height="50"
 						data={commitData}
-						options={{
-							datasets: {
-								label: "NFL Chart",
-								fillColor: "rgba(220,220,220,0.2)",
-								strokeColor: "rgba(220,220,220,1)",
-								pointColor: "rgba(220,220,220,1)",
-								pointStrokeColor: "#000",
-								pointHighlightFill: "#000",
-								pointHighlightStroke: "rgba(220,220,220,1)"
-							}
-						}}
 					/>
-				<p>{commit.message.split("-").join(" ")}</p>
-				<p>{commit.author.split('<')[0]}</p>
-				<p>{commit.date}</p>
-				</li>
-				</ul>)
+					</div>
+					<p>{commit.message.split("-").join(" ")}</p>
+					<p>{commit.author.split('<')[0]}</p>
+					<p>{commit.date}</p>
+					<p>{pathString}</p>
+				</li>)
 		}
 	}
 	module.exports = Commit;

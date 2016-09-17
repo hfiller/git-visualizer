@@ -55,7 +55,11 @@ define(function(require, exports, module) {
 		    	return (<div><img style={style}src="images/ripple.svg"/></div>)
 			}
 			var repo = this.state.repositories[this.state.repositoryName];
-			return (<div>{this.renderCommits()}</div>);
+			return (<div>
+				<ul className="List-group" style={{width:"300px", overflowY:"scroll",height:"100%"}}>
+					{this.renderCommits()}
+				</ul>
+				</div>);
 		}
 	}
 	module.exports = Summary;
