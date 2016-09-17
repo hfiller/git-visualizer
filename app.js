@@ -8,7 +8,6 @@ var RefCounter = require('./refCounter.js');
  */
 function scan(repo){
 	var ref = new RefCounter(2,function (){
-		console.log("here?");
 		var logs = require("./tmp/logs.json")
 		var stats = require("./tmp/stats.json")
 		logs.map(function(log){
@@ -34,4 +33,5 @@ function scan(repo){
 		}
 		ref.call();
 	});
-}()
+}
+scan();

@@ -13,7 +13,6 @@ RefCounter.prototype.call = function (){
 		console.log("this should never happen");
 		return;
 	}
-	console.log(this.count);
 	this.count--;
 	if(!this.count){
 		this.complete();
