@@ -1,5 +1,6 @@
 var exec = require('child_process').exec;
 var RefCounter = require('./refCounter.js');
+var jsonfile = require('jsonfile')
 
 /**
  * scan
@@ -13,8 +14,10 @@ function scan(repo){
 		logs.map(function(log){
 			log.paths = stats[log.commit];
 		});
-		console.log(logs);
-	})
+		jsonfile.writeFile(file,logs, function (err) {
+			console.error(err)
+		})
+	});
 	// run both log and stats at the same time.
 	exec('./bin/log.sh > tmp/logs.json', function (err, output){
 		if(err){
