@@ -1,40 +1,8 @@
-var exec = require('child_process').exec;
-var RefCounter = require('./refCounter.js');
-var jsonfile = require('jsonfile')
-
-/**
- * scan
- * scans a directory
- * @param {String} relative directory.
- */
-function scan(repo){
-	var ref = new RefCounter(2,function (){
-		var logs = require("./tmp/logs.json")
-		var stats = require("./tmp/stats.json")
-		logs.map(function(log){
-			log.paths = stats[log.commit];
-		});
-		jsonfile.writeFile(file,logs, function (err) {
-			console.error(err)
-		})
-	});
-	// run both log and stats at the same time.
-	exec('./bin/log.sh > tmp/logs.json', function (err, output){
-		if(err){
-			console.log("error");
-			console.log(err);
-			return;
-		}
-		ref.call();
-	});
-	// asynchronousity is awesome.
-	exec('./bin/stats.sh > tmp/stats.json',function (err, output){
-		if(err){
-			console.log("error");
-			console.log(err);
-			return;
-		}
-		ref.call();
-	});
-}
-scan();
+// load static folder
+var express = require("express");
+var app = express();
+// LOL @ express server implementations
+app.use("/",express.static(path.join(__dirname, "public")));
+app.get("*",function(){
+	res.sendfile(__dirname+'/public/index.html');
+})
