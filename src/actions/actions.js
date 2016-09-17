@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 					payload:response,
 					meta:repo
 				});
-				});
+			});
 		}
 	}
 

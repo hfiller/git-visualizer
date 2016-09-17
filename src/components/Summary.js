@@ -37,9 +37,11 @@ define(function(require, exports, module) {
 		}
 
 		renderCommits(){
-			return this.state.repositories[this.state.repositoryName].map((commit)=>{
-				return (<Commit key={commit.commit} commit={commit}/>)
+			var commits = [];
+			this.state.repositories[this.state.repositoryName].map((commit)=>{
+				commits.unshift(<Commit key={commit.commit} commit={commit}/>)
 			})
+			return commits;
 		}
 
 		render(){
@@ -59,6 +61,7 @@ define(function(require, exports, module) {
 				<ul className="List-group" style={{width:"300px", overflowY:"scroll",height:"100%"}}>
 					{this.renderCommits()}
 				</ul>
+				
 				</div>);
 		}
 	}

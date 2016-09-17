@@ -8,6 +8,7 @@ define(function(require, exports, module) {
 	var getMuiTheme = require('material-ui/styles/getMuiTheme').default;
 	var injectTapEventPlugin = require("react-tap-event-plugin");
 
+	require('rc-slider/assets/index.css');
 	var Summary = require('./components/Summary.js');
 
 	/**

@@ -7,11 +7,6 @@ define(function(require, exports, module) {
 			super(props);
 		};
 
-		colorFunc(input){
-			console.log(arguments)
-			return (input%2==0)?"#ff0000":"#00ff00";
-		}
-
 		render(){
 			if(!this.props.commit){
 				return (<p>ERROR</p>);
