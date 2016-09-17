@@ -5,6 +5,9 @@ function RefCounter(count, callback, error){
 	this.error = error;
 }
 
+/**
+ * call referenceCounter.
+ */
 RefCounter.prototype.call = function (){
 	if(!this.count || this.count <= 0){
 		console.log("this should never happen");
