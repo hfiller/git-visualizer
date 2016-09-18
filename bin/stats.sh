@@ -5,7 +5,6 @@
 #
 # You can then easily cross-reference or merge this with the JSON git
 # log, since both are keyed on the commit hash, which is unique.
-
 git log \
     --numstat \
     --format='%H' \

@@ -8,7 +8,7 @@ app.get("/",function(req, res){
 	res.sendfile(__dirname+'/public/index.html');
 });
 
-var PORT = "8080";
+var PORT = "80";
 var ADDRESS = "0.0.0.0";
 
 var server = http.createServer(app);

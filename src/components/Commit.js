@@ -15,6 +15,7 @@ define(function(require, exports, module) {
 			var total = 0;
 			var commit = this.props.commit;
 			var pathString = "";
+			commit.paths = commit.paths || [];
 			for (var i = 0; i < commit.paths.length; i++) {
 				if(pathString)
 					pathString+='\n';

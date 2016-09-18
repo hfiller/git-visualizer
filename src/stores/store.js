@@ -24,7 +24,6 @@ define(function(require, exports, module) {
 		 */
 		__subscribe() {
 			AppDispatcher.register((event) => {
-				console.log(event.type);
 				switch(event.type) {
 					case "NEW_REPO":
 						this.repos[event.meta] = event.payload;

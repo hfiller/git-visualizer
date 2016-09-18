@@ -27,6 +27,7 @@ function scan(repo){
 			console.log(err);
 			return;
 		}
+		console.log(output);
 		ref.call();
 	});
 	// asynchronousity is awesome.
@@ -36,6 +37,7 @@ function scan(repo){
 			console.log(err);
 			return;
 		}
+		console.log(output);
 		ref.call();
 	});
 }

@@ -39,27 +39,36 @@ define(function(require, exports, module) {
 			this.setState(Store.getState());
 		}
 
+		createSpace(distance){
+			var distanceElements = []
+			for (var i = 0; i < distance; i++) {
+				distanceElements.push(<span key={i} style={{marginRight:"20px"}}>{" "}</span>);
+			}
+			return (<span>{distanceElements}</span>)
+		}
+
 		createPath(path,isNew,modifyCount){
 			var createdPaths = [];
 			path = path.split('/');
 			for (var i = 0; i < (path.length - 1); i++) {
+				var spacing = {};
+				spacing.width = (i*5)+"px";
 				var dir = path[i];
 				if(i > this.cd.length){
 					this.cd.push(dir);
-					createdPaths.push(<li key={this.cd.join('/')} className="list-group-item active">{dir}</li>);
+					createdPaths.push(<li key={this.cd.join('/')} className="list-group-item active">{this.createSpace(i)}{dir}</li>);
 					continue
 				}
 				if(dir != this.cd[i]){
-					createdPaths.push(<li key={this.cd.join('/')+dir} className="list-group-item active">{dir}</li>);
+					createdPaths.push(<li key={this.cd.join('/')+dir} className="list-group-item active">{this.createSpace(i)}{dir}</li>);
 					this.cd.length = i;
 				}
 			}
-			console.log(modifyCount);
 			if(modifyCount){
 				var modifiedBadge = (<span className="badge">{modifyCount}</span>)
 			}
 			var fileDrescriptor = (isNew)?"list-group-item list-group-item-success":"list-group-item";
-			createdPaths.push(<li key={path.join('/')} className={fileDrescriptor} >{modifiedBadge}{path.pop()}</li>);
+			createdPaths.push(<li key={path.join('/')} className={fileDrescriptor} >{modifiedBadge}{this.createSpace(i)}{path.pop()}</li>);
 			this.cd = path;
 			return createdPaths;
 		}
@@ -85,7 +94,20 @@ define(function(require, exports, module) {
 				repeatCount = 0;
 				previous = path;
 			}
-			return (<ul className="list-group" style={{border:"40px",height:"100%", overflowY:"scroll"}}>{renderPaths}</ul>);
+			return (<ul className="list-group" style={{border:"40px",height:"100%", overflowY:"scroll",paddingTop:"40px"}}>{renderPaths}</ul>);
+		}
+
+		playRepo(){
+			if(this.stop){
+				clearInterval(this.stop);
+			} else {
+				this.stop = setInterval(()=>{
+					if(this.state.commitIndex == this.state.repositories[this.state.repositoryName].length){
+						return clearInterval(this.stop);
+					}
+					actions.updateCurrentIndex(this.state.commitIndex+1);
+				},1000);
+			}
 		}
 
 		render(){
@@ -111,6 +133,9 @@ define(function(require, exports, module) {
 				if(commitCount - index -2 < this.state.commitIndex){
 					// these commits are considered in the folder structure.
 					commits.push(<Commit key={index} commit={commit}/>)
+					if(!commit.paths){
+						return;
+					}
 					paths = paths.concat(commit.paths.map((path)=>{
 						return path.path;
 					}));
@@ -127,6 +152,7 @@ define(function(require, exports, module) {
 				</ul>
 				</div>
 				<div style={{float:"left",width:"80%",height:"100%", padding:"40px"}}>
+				<span className="glyphicon glyphicon-play" style={{marginTop:"-25px"}} aria-hidden="true" onClick={this.playRepo.bind(this)}></span>
 				<TimeSlider currentIndex={this.state.commitIndex} commitCount={this.state.repositories[this.state.repositoryName].length}/>
 					{this.renderPaths(paths,newPaths)}
 				</div>
