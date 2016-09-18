@@ -29,7 +29,7 @@ define(function(require, exports, module) {
 					case "NEW_REPO":
 						this.repos[event.meta] = event.payload;
 						this.current_repo = event.meta;
-						this.commitIndex = Math.floor(event.payload.length/2);
+						this.commitIndex = 0;
 						break;
 					case "COMMIT_INDEX":
 						this.commitIndex = event.payload;
