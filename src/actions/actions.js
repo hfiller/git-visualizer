@@ -13,10 +13,18 @@ define(function(require, exports, module) {
 				}).done(function (response) {
 					console.log(response);
 					AppDispatcher.dispatch({
-					type:"NEW_REPO",
-					payload:response,
-					meta:repo
-				});
+						type:"NEW_REPO",
+						payload:response,
+						meta:repo
+					});
+				}
+			);
+		}
+
+		updateCurrentIndex(index){
+			AppDispatcher.dispatch({
+				type:"COMMIT_INDEX",
+				payload:index
 			});
 		}
 	}

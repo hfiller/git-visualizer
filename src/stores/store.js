@@ -16,6 +16,7 @@ define(function(require, exports, module) {
 		__initialize() {
 			this.current_repo = 'test-repo'
 			this.repos = {};
+			this.commitIndex = 0;
 		}
 		
 		/**
@@ -27,6 +28,11 @@ define(function(require, exports, module) {
 				switch(event.type) {
 					case "NEW_REPO":
 						this.repos[event.meta] = event.payload;
+						this.current_repo = event.meta;
+						this.commitIndex = Math.floor(event.payload.length/2);
+						break;
+					case "COMMIT_INDEX":
+						this.commitIndex = event.payload;
 						break;
 					default:
 						return;
@@ -57,7 +63,8 @@ define(function(require, exports, module) {
 		getState() {
 			return {
 				repositoryName: this.current_repo,
-				repositories: this.repos
+				repositories: this.repos,
+				commitIndex: this.commitIndex
 			};
 		}
 	}
